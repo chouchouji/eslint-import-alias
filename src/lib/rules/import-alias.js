@@ -11,7 +11,6 @@ export const meta = {
     type: 'object',
     properties: {
       rootDir: { type: 'string' },
-      relativeDepth: { type: 'number' },
       aliases: {
         type: 'array',
         items: {
@@ -33,16 +32,8 @@ export const meta = {
 const RELATIVE_MATCHER = /^(?:\.{1,2}\/)+/;
 const CWD = process.cwd();
 
-/**
- * @param {string} matchedPath
- */
-function getDepthCount(matchedPath) {
-  return matchedPath.split('/').reduce((depth, segment) => segment === '..' ? depth + 1 : depth, 0);
-}
-
 export function create(context) {
   const {
-    relativeDepth = -1,
     aliases: _aliases = [],
     rootDir = CWD
   } = context.options[0] || {};
@@ -60,34 +51,28 @@ export function create(context) {
       const matches = importValue.match(RELATIVE_MATCHER);
 
       if (matches) {
-        const depth = getDepthCount(matches[0]);
+        context.report({
+          node,
+          message: 'Import path mush be a path alias',
+          fix(fixer) {
+            const parsedPath = path.parse(context.getFilename());
+            const importPath = path.relative(rootDir, path.resolve(parsedPath.dir, importValue));
 
-        if (depth > relativeDepth) {
-          context.report({
-            node,
-            message: relativeDepth === -1
-              ? 'Import path mush be a path alias'
-              : `import statement must be an alias or no more than ${relativeDepth} levels deep`,
-            fix(fixer) {
-              const parsedPath = path.parse(context.getFilename());
-              const importPath = path.relative(rootDir, path.resolve(parsedPath.dir, importValue));
+            for (const item of aliases) {
+              const match = importPath.match(item.matcher);
 
-              for (const item of aliases) {
-                const match = importPath.match(item.matcher);
+              if (match) {
+                const matchingString = match[match.length - 1];
+                const index = match[0].indexOf(matchingString);
+                const result = importPath.slice(0, index)
+                  + item.alias
+                  + importPath.slice(index + matchingString.length);
 
-                if (match) {
-                  const matchingString = match[match.length - 1];
-                  const index = match[0].indexOf(matchingString);
-                  const result = importPath.slice(0, index)
-                    + item.alias
-                    + importPath.slice(index + matchingString.length);
-
-                  return fixer.replaceTextRange([node.source.range[0] + 1, node.source.range[1] - 1], result);
-                }
+                return fixer.replaceTextRange([node.source.range[0] + 1, node.source.range[1] - 1], result);
               }
             }
-          });
-        }
+          }
+        });
       }
     },
     ImportExpression(node) {
@@ -96,35 +81,29 @@ export function create(context) {
       const matches = importValue.match(RELATIVE_MATCHER);
 
       if (matches) {
-        const depth = getDepthCount(matches[0]);
+        context.report({
+          node,
+          message: 'Import path mush be a path alias',
+          fix(fixer) {
+            const parsedPath = path.parse(context.getFilename());
+            const importPath = path.relative(rootDir, path.resolve(parsedPath.dir, importValue));
 
-        if (depth > relativeDepth) {
-          context.report({
-            node,
-            message: relativeDepth === -1
-              ? 'Import path mush be a path alias'
-              : `import statement must be an alias or no more than ${relativeDepth} levels deep`,
-            fix(fixer) {
-              const parsedPath = path.parse(context.getFilename());
-              const importPath = path.relative(rootDir, path.resolve(parsedPath.dir, importValue));
+            for (const item of aliases) {
+              const match = importPath.match(item.matcher);
 
-              for (const item of aliases) {
-                const match = importPath.match(item.matcher);
+              if (match) {
+                const matchingString = match[match.length - 1];
+                const index = match[0].indexOf(matchingString);
+                const result = importPath.slice(0, index)
+                  + item.alias
+                  + importPath.slice(index + matchingString.length);
 
-                if (match) {
-                  const matchingString = match[match.length - 1];
-                  const index = match[0].indexOf(matchingString);
-                  const result = importPath.slice(0, index)
-                    + item.alias
-                    + importPath.slice(index + matchingString.length);
-
-                  return fixer.replaceTextRange([node.source.range[0] + 1, node.source.range[1] - 1], result);
-                }
+                return fixer.replaceTextRange([node.source.range[0] + 1, node.source.range[1] - 1], result);
               }
             }
-          });
-        }
+          }
+        });
       }
-    },
+    }
   }
 }

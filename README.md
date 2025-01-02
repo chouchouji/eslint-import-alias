@@ -1,13 +1,17 @@
 eslint-plugin-import-alias
 ===================
 
-An ESLint rule for forcing import path aliases.
+An ESLint rule for forcing import and dynamic import path aliases.
 
 Install
 -------
 
 ```shell
-npm install --save-dev eslint-plugin-import-alias
+npm install --save-dev @binbinji/eslint-plugin-import-alias
+
+yarn add @binbinji/eslint-plugin-import-alias -D
+
+pnpm add @binbinji/eslint-plugin-import-alias -D
 ```
 
 Usage
@@ -17,11 +21,7 @@ Usage
 import { test } from '@src/test'; // valid
 import { test } from './test'; // invalid
 import { test } from '../test'; // invalid
-
-// Optional relative depth can be specified.
-import { test } from './test'; // valid, { relativeDepth: 0 }
-import { test } from '../test'; // valid, { relativeDepth: 1 }
-import { test } from '../../test'; // invalid, { relativeDepth: 1 }
+import('./test') // invalid
 ```
 
 Configure
@@ -30,10 +30,9 @@ Configure
 ```javascript
 {
   "rules": {
-    "import-alias/import-alias": [
+    "@binbinji/import-alias/import-alias": [
       "error",
       {
-        "relativeDepth": 0,
         "aliases": [
           { "alias": "@src", "matcher": "^src" }, // src/modules/app/test -> @src/modules/app/test
           { "alias": "@test", "matcher": "^test\/unit" }, // test/unit/modules/app -> @test/modules/app
@@ -53,12 +52,11 @@ A 'rootDir' can be defined to resolve the file paths from. This defaults to `pro
 
 ```javascript
 module.exports = {
-  plugins: ['import-alias'],
+  plugins: ['@binbinji/import-alias'],
   "rules": {
-    "import-alias/import-alias": [
+    "@binbinji/import-alias/import-alias": [
       "error",
       {
-        "relativeDepth": 0,
         "rootDir": __dirname,
         "aliases": [
           { "alias": "@src", "matcher": "^src" } // src/modules/app/test -> @src/modules/app/test
