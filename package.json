@@ -1,6 +1,6 @@
 {
   "name": "@binbinji/eslint-plugin-import-alias",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "ESLint rule for restricting imports and dynamic imports to path aliases",
   "keywords": [
     "eslint",
