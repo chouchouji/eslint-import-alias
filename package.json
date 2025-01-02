@@ -20,7 +20,7 @@
     "format": "prettier --write .",
     "build": "rollup -c",
     "clean": "rimraf lib node_modules",
-    "release": "pnpm clean && pnpm build && vr release"
+    "release": "rimraf lib && pnpm build && vr release"
   },
   "devDependencies": {
     "@varlet/release": "^0.3.2",
