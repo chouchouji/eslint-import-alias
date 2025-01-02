@@ -14,7 +14,7 @@
     "clean": "rm -rf lib",
     "build": "babel src --out-dir ./ ",
     "prebuild": "npm run clean",
-    "release": "vr release --skip-changelog"
+    "release": "pnpm clean && pnpm build && vr release --skip-changelog"
   },
   "author": "chouchouji <1305974212@qq.com>",
   "license": "MIT",
