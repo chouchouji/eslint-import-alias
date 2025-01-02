@@ -1,27 +1,32 @@
 {
   "name": "@binbinji/eslint-plugin-import-alias",
   "version": "1.2.3",
-  "description": "ESLint rule for restricting imports to path aliases",
-  "main": "lib/index.js",
+  "description": "ESLint rule for restricting imports and dynamic imports to path aliases",
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "import",
+    "alias"
+  ],
   "repository": "https://github.com/chouchouji/eslint-import-alias",
-  "directories": {
-    "doc": "docs",
-    "lib": "lib",
-    "test": "test"
-  },
-  "scripts": {
-    "test": "babel-node test",
-    "clean": "rm -rf lib",
-    "build": "babel src --out-dir ./ ",
-    "prebuild": "npm run clean",
-    "release": "pnpm clean && pnpm build && vr release --skip-changelog"
-  },
-  "author": "chouchouji <1305974212@qq.com>",
   "license": "MIT",
+  "author": "chouchouji <1305974212@qq.com>",
+  "type": "commonjs",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "format": "prettier --write .",
+    "build": "rollup -c",
+    "clean": "rimraf lib node_modules",
+    "release": "pnpm clean && pnpm build && vr release"
+  },
   "devDependencies": {
     "@varlet/release": "^0.3.2",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "eslint": "^4.19.1"
+    "eslint": "^8.x",
+    "prettier": "3.4.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.29.1"
   }
 }

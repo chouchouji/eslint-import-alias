@@ -1,10 +1,8 @@
-eslint-plugin-import-alias
-===================
+# eslint-plugin-import-alias
 
 An ESLint rule for forcing import and dynamic import path aliases.
 
-Install
--------
+## Install
 
 ```shell
 npm install --save-dev @binbinji/eslint-plugin-import-alias
@@ -14,18 +12,16 @@ yarn add @binbinji/eslint-plugin-import-alias -D
 pnpm add @binbinji/eslint-plugin-import-alias -D
 ```
 
-Usage
------
+## Usage
 
 ```javascript
-import { test } from '@src/test'; // valid
-import { test } from './test'; // invalid
-import { test } from '../test'; // invalid
+import { test } from '@src/test' // valid
+import { test } from './test' // invalid
+import { test } from '../test' // invalid
 import('./test') // invalid
 ```
 
-Configure
----------
+## Configure
 
 ```javascript
 {
@@ -49,20 +45,19 @@ Optionally, you can define a capture group to replace only the part within the c
 
 A 'rootDir' can be defined to resolve the file paths from. This defaults to `process.cwd()`. In a lot of cases, this is already the project root in most cases.
 
-
 ```javascript
 module.exports = {
   plugins: ['@binbinji/import-alias'],
-  "rules": {
-    "@binbinji/import-alias/import-alias": [
-      "error",
+  rules: {
+    '@binbinji/import-alias/import-alias': [
+      'error',
       {
-        "rootDir": __dirname,
-        "aliases": [
-          { "alias": "@src", "matcher": "^src" } // src/modules/app/test -> @src/modules/app/test
-        ]
-      }
-    ]
-  }
-};
+        rootDir: __dirname,
+        aliases: [
+          { alias: '@src', matcher: '^src' }, // src/modules/app/test -> @src/modules/app/test
+        ],
+      },
+    ],
+  },
+}
 ```

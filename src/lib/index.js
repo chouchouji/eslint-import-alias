@@ -1,5 +1,7 @@
-import * as ImportAliasRule from './rules/import-alias';
+const ImportAliasRule = require('./rules/import-alias')
 
-export const rules = {
-  'import-alias': ImportAliasRule
-};
+module.exports = {
+  rules: {
+    'import-alias': ImportAliasRule,
+  },
+}
