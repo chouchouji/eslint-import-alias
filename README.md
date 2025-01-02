@@ -53,6 +53,7 @@ A 'rootDir' can be defined to resolve the file paths from. This defaults to `pro
 
 ```javascript
 module.exports = {
+  plugins: ['import-alias'],
   "rules": {
     "import-alias/import-alias": [
       "error",
