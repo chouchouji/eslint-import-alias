@@ -2,6 +2,8 @@
 
 可以将相对路径导入和动态导入转化为路径别名的eslint插件
 
+[English](README.md)
+
 ## 安装
 
 ```shell

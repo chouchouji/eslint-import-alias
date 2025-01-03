@@ -2,6 +2,8 @@
 
 An ESLint rule for forcing import and dynamic import path aliases.
 
+[中文](README.zh-CN.md)
+
 ## Install
 
 ```shell
