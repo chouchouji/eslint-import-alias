@@ -12,7 +12,7 @@ yarn add @binbinji/eslint-plugin-import-alias -D
 pnpm add @binbinji/eslint-plugin-import-alias -D
 ```
 
-## Usage
+## Example
 
 ```javascript
 import { test } from '@src/test' // valid
@@ -25,14 +25,13 @@ import('./test') // invalid
 
 ```javascript
 {
-  "rules": {
+  plugins: ['@binbinji/import-alias'],
+  rules: {
     "@binbinji/import-alias/import-alias": [
       "error",
       {
         "aliases": [
-          { "alias": "@src", "matcher": "^src" }, // src/modules/app/test -> @src/modules/app/test
-          { "alias": "@test", "matcher": "^test\/unit" }, // test/unit/modules/app -> @test/modules/app
-          { "alias": "@testRoot", "matcher": "^(test)\/e2e" } // test/e2e/modules/app -> @testRoot/e2e/modules/app
+          { "alias": "@", "matcher": "^src" }, // src/modules/app/test -> @/modules/app/test
         ]
       }
     ]
@@ -54,7 +53,7 @@ module.exports = {
       {
         rootDir: __dirname,
         aliases: [
-          { alias: '@src', matcher: '^src' }, // src/modules/app/test -> @src/modules/app/test
+          { alias: '@', matcher: '^src' }, // src/modules/app/test -> @/modules/app/test
         ],
       },
     ],
